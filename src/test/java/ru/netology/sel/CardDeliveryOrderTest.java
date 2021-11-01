@@ -13,7 +13,7 @@ import static com.codeborne.selenide.Selenide.*;
 
 class CardDeliveryOrderTest {
     //git add -f artifacts/app-card-delivery.jar
-    //java -jar ./artifacts/app-card-delivery.jar
+    //java -jar ./artifacts/app-card-delivery.jar ./gradlew test --info -Dselenide.headless=true
 
     static String addData () {
         LocalDate data = LocalDate.now().plusDays(3);
