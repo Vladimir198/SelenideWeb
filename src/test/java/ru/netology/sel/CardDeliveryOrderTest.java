@@ -30,7 +30,7 @@ class CardDeliveryOrderTest {
     void shouldDirectInputOfValues() {
         open("http://localhost:9999");
         $("[placeholder='Город']").setValue("Нижний Новгород");
-        $("[placeholder='Дата встречи']").setValue(deleteString);
+        $("[placeholder='Дата встречи']").setValue(deleteString).setValue(addDate("dd.MM.yyyy"));
         $("[placeholder='Дата встречи']").setValue(addDate("dd.MM.yyyy"));
         $("[name='name']").setValue("Петров Петр");
         $("[name='phone']").setValue("+79200000000");
@@ -46,8 +46,7 @@ class CardDeliveryOrderTest {
     void shouldIncorrectDateFormat() {
         open("http://localhost:9999");
         $("[placeholder='Город']").setValue("Нижний Новгород");
-        $("[placeholder='Дата встречи']").setValue(deleteString);
-        $("[placeholder='Дата встречи']").setValue(addDate("MM.dd.yy"));
+        $("[placeholder='Дата встречи']").setValue(deleteString).setValue(addDate("MM.dd.yy"));
         $("[name='name']").setValue("Петров Петр");
         $("[name='phone']").setValue("+79200000000");
         $("[data-test-id='agreement']").click();
