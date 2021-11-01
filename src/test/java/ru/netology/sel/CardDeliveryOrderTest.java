@@ -1,8 +1,8 @@
 package ru.netology.sel;
 
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -10,38 +10,50 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
+import static java.time.Duration.ofSeconds;
 
 class CardDeliveryOrderTest {
     //git add -f artifacts/app-card-delivery.jar
     //java -jar ./artifacts/app-card-delivery.jar ./gradlew test --info -Dselenide.headless=true
 
-    static String addData () {
-        LocalDate data = LocalDate.now().plusDays(3);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        return data.format(formatter);
+    String deleteString = Keys.chord(Keys.CONTROL, "a") + Keys.DELETE;
+
+    String addDate(String format) {
+ //       "dd.MM.yyyy"
+        LocalDate date = LocalDate.now().plusDays(5);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+        return date.format(formatter);
     }
+
+
     @Test
     void shouldDirectInputOfValues() {
         open("http://localhost:9999");
         $("[placeholder='Город']").setValue("Нижний Новгород");
-        $("[placeholder='Дата встречи']").setValue(addData());
-        $("[name='name']").setValue("Петров Птр");
+        $("[placeholder='Дата встречи']").setValue(deleteString);
+        $("[placeholder='Дата встречи']").setValue(addDate("dd.MM.yyyy"));
+        $("[name='name']").setValue("Петров Петр");
         $("[name='phone']").setValue("+79200000000");
         $("[data-test-id='agreement']").click();
         $$("button").find(exactText("Забронировать")).click();
-        $(byText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
+        $(byText("Успешно!")).shouldBe(visible, ofSeconds(15));
 //        $(byText("Личный кабинет")).shouldBe(visible, Duration.ofMillis(5000));
     }
 
-//    @Test
-//    void shouldRegisterByAccountNumberVisibilityChange() {
-//        open("http://localhost:9999");
-//        $$(".tab-item").find(exactText("По номеру счёта")).click();
-//        $$("[name='number']").last().setValue("4055 0100 0123 4613 8564");
-//        $$("[name='phone']").last().setValue("+792000000000");
-//        $$("button").find(exactText("Продолжить")).click();
-//        $(withText("Успешно! авторизация")).shouldBe(visible, Duration.ofSeconds(5));
-//        $(byText("Личный кабинет")).shouldBe(visible, Duration.ofSeconds(5));
-//    }
+
+
+    @Test
+    void shouldNegativeDateInputOfValues() {
+        open("http://localhost:9999");
+        $("[placeholder='Город']").setValue("Нижний Новгород");
+        $("[placeholder='Дата встречи']").setValue(deleteString);
+        $("[placeholder='Дата встречи']").setValue(addDate("MM.dd.yy"));
+        $("[name='name']").setValue("Петров Петр");
+        $("[name='phone']").setValue("+79200000000");
+        $("[data-test-id='agreement']").click();
+        $$("button").find(exactText("Забронировать")).click();
+        $(byText("Неверно введена дат")).shouldBe(visible, ofSeconds(15));
+        //$(byText("Личный кабинет")).shouldBe(visible, ofSeconds(5));
+    }
 }
 
