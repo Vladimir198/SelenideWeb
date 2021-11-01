@@ -43,7 +43,7 @@ class CardDeliveryOrderTest {
 
 
     @Test
-    void shouldNegativeDateInputOfValues() {
+    void shouldIncorrectDateFormat() {
         open("http://localhost:9999");
         $("[placeholder='Город']").setValue("Нижний Новгород");
         $("[placeholder='Дата встречи']").setValue(deleteString);
@@ -52,7 +52,7 @@ class CardDeliveryOrderTest {
         $("[name='phone']").setValue("+79200000000");
         $("[data-test-id='agreement']").click();
         $$("button").find(exactText("Забронировать")).click();
-        $(byText("Неверно введена дат")).shouldBe(visible, ofSeconds(15));
+        $(byText("Неверно введена дата")).shouldBe(visible, ofSeconds(15));
         //$(byText("Личный кабинет")).shouldBe(visible, ofSeconds(5));
     }
 }
