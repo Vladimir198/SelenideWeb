@@ -47,5 +47,25 @@ class CardDeliveryOrderTest {
         $$("button").find(exactText("Забронировать")).click();
         $(byText("Неверно введена дата")).shouldBe(visible, ofSeconds(15));
     }
+
+    //Задание 2
+    @Test
+    void shouldV1() {
+        Calendar calendar = new Calendar();
+        CityEnter cityEnter = new CityEnter();
+        int dey = 21;
+        String meetingDate = addDate("dd.MM.yyyy", dey);
+
+        open("http://localhost:9999");
+        cityEnter.setCity();
+        calendar.calendarEnter(dey);
+        $("[name='name']").setValue("Петров Петр");
+        $("[name='phone']").setValue("+79200000000");
+        $("[data-test-id='agreement']").click();
+        $$("button").find(exactText("Забронировать")).click();
+        $(byText("Успешно!")).shouldBe(visible, ofSeconds(15));
+        $(".notification__content").should(visible, exactTextCaseSensitive("Встреча успешно забронирована на "
+                + meetingDate));
+    }
 }
 
