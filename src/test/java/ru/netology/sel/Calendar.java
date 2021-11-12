@@ -24,7 +24,5 @@ public class Calendar {
         }
         else
             $(byText(valueOf(sum))).click();
-
-//java -jar ./artifacts/app-card-delivery.jar ./gradlew test --info -Dselenide.headless=true
     }
 }
