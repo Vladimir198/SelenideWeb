@@ -16,7 +16,7 @@ public class Calendar {
         int monthsEnd = parseInt($$("td").filter(visible).filter(attribute("data-day")).last().text());
 
         int sum = today + dey;
-        if (sum >= monthsEnd) {
+        if (sum > monthsEnd) {
             $$(".calendar__arrow_direction_right").last().click();
             int w = monthsEnd - today;
             dey -= w;
